@@ -19,6 +19,8 @@ OUTPUT_FILE = OUTPUT_DIR / "entry.txt"
 def main() -> int:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     data = EMOJI.encode("utf-8")
+    # Runtime guard: exactly one emoji — U+263A (3 bytes) + U+FE0F (3 bytes).
+    assert data == b"\xe2\x98\xba\xef\xb8\x8f" and len(data) == 6, "must be exactly one emoji"
     OUTPUT_FILE.write_bytes(data)
     # The grader runs as uid 65534 on a root-owned /output bind mount and a
     # different user reads the result, so the file must be world-readable.
